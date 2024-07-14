@@ -1,9 +1,10 @@
 import React from 'react'
+import { Carousel } from 'react-responsive-carousel'
 
 const Homes = () => {
   return (
-    <div>
-      Homes
+    <div >
+    <Carousel/>
     </div>
   )
 }

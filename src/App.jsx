@@ -10,19 +10,21 @@ import Stories from './pages/Stories';
 import DisplayHomes from './pages/DisplayHomes';
 import Contact from './pages/Contact';
 import HomePage from './pages/HomePage';
+import LoadingAnimation from './components/common/Loading';
 
 const App = () => {
   return (
     <Router>
-      <Header />
+
       <Navbar />
+      <LoadingAnimation />
       <Routes>   
         <Route path="/" element={<HomePage/>} />
         <Route path="/about-us" element={<AboutUs/>} />
         <Route path="/homes" element={<Homes />} />
         <Route path="/process" element={<Process />} />
         <Route path="/stories" element={<Stories/>} />
-        <Route path="/display-homes" element={<DisplayHomes />} />
+        <Route path="/display_homes" element={<DisplayHomes />} />
         <Route path="/contact" element={<Contact/>} />
       </Routes>
       <Footer />

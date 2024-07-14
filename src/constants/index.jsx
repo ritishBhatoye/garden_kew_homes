@@ -38,19 +38,19 @@ export const services = [
     id: 1,
     title: 'Corporate',
     description: 'Apparently we had reached a great height in the atmosphere',
-    image: 'path_to_corporate_image.jpg', // Replace with the path to the corporate image
+    image: 'path_to_corporate_image.jpg', 
   },
   {
     id: 2,
     title: 'Wedding',
     description: 'Apparently we had reached a great height in the atmosphere',
-    image: 'path_to_wedding_image.jpg', // Replace with the path to the wedding image
+    image: 'path_to_wedding_image.jpg', 
   },
   {
     id: 3,
     title: 'Event Planning',
     description: 'Apparently we had reached a great height in the atmosphere',
-    image: 'path_to_event_planning_image.jpg', // Replace with the path to the event planning image
+    image: 'path_to_event_planning_image.jpg', 
   },
 ];
 
@@ -206,6 +206,13 @@ export const platformLinks = [
 ];
 
 export const communityLinks = [
+  { href: "#", text: "Events" },
+  { href: "#", text: "Meetups" },
+  { href: "#", text: "Conferences" },
+  { href: "#", text: "Hackathons" },
+  { href: "#", text: "Jobs" },
+];
+export const imageLinks = [
   { href: "#", text: "Events" },
   { href: "#", text: "Meetups" },
   { href: "#", text: "Conferences" },

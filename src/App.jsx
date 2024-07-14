@@ -9,13 +9,15 @@ import Process from './pages/Process';
 import Stories from './pages/Stories';
 import DisplayHomes from './pages/DisplayHomes';
 import Contact from './pages/Contact';
+import HomePage from './pages/HomePage';
 
 const App = () => {
   return (
     <Router>
       <Header />
       <Navbar />
-      <Routes>
+      <Routes>   
+        <Route path="/" element={<HomePage/>} />
         <Route path="/about-us" element={<AboutUs/>} />
         <Route path="/homes" element={<Homes />} />
         <Route path="/process" element={<Process />} />

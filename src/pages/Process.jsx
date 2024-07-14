@@ -3,7 +3,7 @@ import React from 'react'
 const Process = () => {
   return (
     <div>
-      Process
+     <h1>Process</h1> 
     </div>
   )
 }

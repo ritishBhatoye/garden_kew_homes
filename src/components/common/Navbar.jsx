@@ -57,7 +57,7 @@ const Navbar = () => {
                 >
                   <Link
                     to={item.href}
-                    className={`relative text-lg text-[5rem] py-1 px-6 transition-all duration-400 ${
+                    className={`relative lg:text-[3.5rem] py-1 px-6 transition-all duration-400 ${
                       isActive(item.href) ? 'text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-800' : 'hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-800 text-gray-100'
                     }`}
                     onClick={() => setMenuOpen(false)}

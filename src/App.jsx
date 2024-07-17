@@ -17,7 +17,7 @@ const App = () => {
     <Router>
 
       <Navbar />
-      <LoadingAnimation />
+      {/* <LoadingAnimation /> */}
       <Routes>   
         <Route path="/" element={<HomePage/>} />
         <Route path="/about-us" element={<AboutUs/>} />

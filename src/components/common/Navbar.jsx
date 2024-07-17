@@ -17,13 +17,13 @@ const Navbar = () => {
   return (
     <>
       <button
-        className="absolute top-4 left-4 z-50 bg-white p-2"
+        className="absolute top-4 left-4 z-50  bg-customGreen text-customWhite hover:text-transparent duration-75 hover:text-white p-2"
         onClick={() => alert('Booking form or page')}
       >
         BOOK
       </button>
       <button
-        className="absolute top-4 right-4 z-50 bg-white p-2"
+        className="absolute top-4 right-4 z-50  bg-customGreen text-customWhite  hover:text-transparent duration-75 hover:text-white p-2"
         onClick={() => setMenuOpen(!menuOpen)}
       >
         {menuOpen ? 'CLOSE' : 'MENU'}
@@ -39,7 +39,7 @@ const Navbar = () => {
             transition={{ duration: 0.25 }}
           >
             <button
-              className="absolute top-4 right-4 bg-white p-2"
+              className="absolute top-4 right-4 bg-customGreen p-2"
               onClick={() => setMenuOpen(false)}
             >
               CLOSE
@@ -57,8 +57,8 @@ const Navbar = () => {
                 >
                   <Link
                     to={item.href}
-                    className={`relative lg:text-[3.5rem] py-1 px-6 transition-all duration-400 ${
-                      isActive(item.href) ? 'text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-800' : 'hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-800 text-gray-100'
+                    className={`relative text-lg text-[5rem] py-1 px-6 transition-all duration-400 ${
+                      isActive(item.href) ? 'text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-green-800' : 'hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r from-green-500 to-green-800 text-customWhite'
                     }`}
                     onClick={() => setMenuOpen(false)}
                   >
@@ -66,7 +66,7 @@ const Navbar = () => {
                     {isActive(item.href) && (
                       <motion.span
                         layoutId="underline"
-                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-500 to-orange-800"
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r  from-green-500 to-green-800"
                         initial={{ width: 0 }}
                         animate={{ width: '100%' }}
                         transition={{ duration: 0.25 }}
@@ -74,7 +74,7 @@ const Navbar = () => {
                     )}
                     {!isActive(item.href) && (
                       <span 
-                        className="absolute bottom-0 left-0 right-0 h-0.5 transition-width duration-500 w-0 group-hover:w-full bg-gradient-to-r from-orange-500 to-orange-800"
+                        className="absolute bottom-0 left-0 right-0 h-0.5 transition-width duration-500 w-0 group-hover:w-full bg-gradient-to-r  from-green-500 to-green-800"
                       ></span>
                     )}
                   </Link>

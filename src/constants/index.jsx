@@ -54,7 +54,11 @@ const imageLinks = {
     image2: "https://example.com/another_image2.jpg",
     // Add more images here
   },
-  // Add more categories and images as needed
+  Logo: {
+    image: "https://i.imgur.com/vVUWpzG.png",
+   
+  },
+  
 };
 
 export default imageLinks;

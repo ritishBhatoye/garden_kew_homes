@@ -25,7 +25,7 @@ const imageLinks = {
     image2: "https://i.imgur.com/6eOsR13.jpeg",
     image3: "https://i.imgur.com/s6k6MnG.jpeg",
     image4: "https://i.imgur.com/s6k6MnG.jpeg",
-    image5: "https://i.imgur.com/IJxhDAl.jpg",
+    image5: "https://i.imgur.com/2YY0hL1.jpeg",
     image6: "https://i.imgur.com/DCROFtI.jpeg",
     image7: "https://i.imgur.com/Z97owHO.jpeg",
     image8: "https://i.imgur.com/nGeiyCn.jpeg",

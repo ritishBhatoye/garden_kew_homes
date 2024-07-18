@@ -9,8 +9,9 @@ const imageLinks = {
     image2: "https://i.imgur.com/6eOsR13.jpeg",
     image3: "https://i.imgur.com/s6k6MnG.jpeg",
     image4: "https://i.imgur.com/s6k6MnG.jpeg",
-    image5: "https://i.imgur.com/IJxhDAl.jpg",
+    image5: "https://i.imgur.com/R0rwU3P.jpeg",
     image6: "https://i.imgur.com/DCROFtI.jpeg",
+    logoPng: "https://i.imgur.com/vVUWpzG.png",
   }
 };
 
@@ -69,6 +70,11 @@ const CarouselComponent = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      <div className="absolute top-4 md:top-10 left-1/2 transform -translate-x-1/2 z-20 text-center">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white" style={{ fontFamily: 'Poppins, sans-serif' }}>
+          KEW GARDEN HOMES
+        </h1>
+      </div>
       <div className="overflow-hidden h-full">
         <div
           className="flex transition-transform duration-500 h-full"
@@ -84,7 +90,7 @@ const CarouselComponent = () => {
               >
                 {index === currentIndex && (
                   <>
-                    <h5 className="text-4xl w-full text-center tracking-wide">
+                    <h5 className="text-2xl sm:text-3xl lg:text-4xl w-full text-center tracking-wide">
                       <TypeAnimation
                         sequence={[image.text, 2000, '']}
                         wrapper="span"
@@ -93,7 +99,7 @@ const CarouselComponent = () => {
                         style={{ display: 'inline-block' }}
                       />
                     </h5>
-                    <h3 className="mt-8 text-3xl sm:text-2xl lg:text-4xl text-center tracking-wide">
+                    <h3 className="mt-4 sm:mt-8 text-lg sm:text-2xl lg:text-3xl text-center tracking-wide">
                       {image.title}
                       <span className="block bg-gradient-to-r from-customGreen to-customWhite bg-clip-text text-transparent">
                         {" "} for Clients

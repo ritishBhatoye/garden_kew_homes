@@ -9,7 +9,7 @@ import Process from './pages/Process';
 import Stories from './pages/Stories';
 import DisplayHomes from './pages/DisplayHomes';
 import Contact from './pages/Contact';
-import HomePage from './pages/HomePage';
+import LandingPage from './pages/LandingPage';
 import LoadingAnimation from './components/common/Loading';
 
 const App = () => {
@@ -19,7 +19,7 @@ const App = () => {
       <Navbar />
       {/* <LoadingAnimation /> */}
       <Routes>   
-        <Route path="/" element={<HomePage/>} />
+        <Route path="/" element={<LandingPage/>} />
         <Route path="/about-us" element={<AboutUs/>} />
         <Route path="/homes" element={<Homes />} />
         <Route path="/process" element={<Process />} />

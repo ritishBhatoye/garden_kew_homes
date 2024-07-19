@@ -7,7 +7,7 @@ const Homes = () => {
   return (
     <div >
     {/* <Carousel/> */}
-    <h1>Homes</h1>
+
     <DisplayHomes />
     </div>
   )

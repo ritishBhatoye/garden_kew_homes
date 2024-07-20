@@ -55,7 +55,7 @@ const CarouselComponent = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1 }}
-            className="absolute inset-0 flex items-center justify-center z-10 bg-gradient-to-r from-green-500 to-green-800"
+            className="absolute inset-0 flex items-center justify-center z-10 bg-gradient-to-r from-green-700 to-green-900"
           >
             <h1 className="text-5xl font-bold text-white">
               <TypeAnimation

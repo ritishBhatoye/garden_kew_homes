@@ -1,9 +1,13 @@
 import React from 'react'
+import Process1 from '../components/process/process1'
+import Process2 from '../components/process/process2'
 
 const Process = () => {
   return (
     <div>
-     <h1>Process</h1> 
+      <Process1/>
+      <Process2/>
+
     </div>
   )
 }

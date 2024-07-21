@@ -48,7 +48,7 @@ const CarouselComponent = () => {
 
   return (
     <div className="relative w-full h-screen mx-auto">
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {showTitle && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -57,7 +57,7 @@ const CarouselComponent = () => {
             transition={{ duration: 1 }}
             className="absolute inset-0 flex items-center justify-center z-10 bg-gradient-to-r from-green-700 to-green-900"
           >
-            <h1 className="text-5xl font-bold text-white">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white px-4 text-center">
               <TypeAnimation
                 sequence={['Garden Kew Homes', 2000]}
                 wrapper="span"
@@ -69,12 +69,8 @@ const CarouselComponent = () => {
             </h1>
           </motion.div>
         )}
-      </AnimatePresence>
-      <div className="absolute top-4 md:top-10 left-1/2 transform -translate-x-1/2 z-20 text-center">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white" style={{ fontFamily: 'Poppins, sans-serif' }}>
-          KEW GARDEN HOMES
-        </h1>
-      </div>
+      </AnimatePresence> */}
+
       <div className="overflow-hidden h-full">
         <div
           className="flex transition-transform duration-500 h-full"
@@ -90,7 +86,7 @@ const CarouselComponent = () => {
               >
                 {index === currentIndex && (
                   <>
-                    <h5 className="text-2xl sm:text-3xl lg:text-4xl w-full text-center tracking-wide">
+                    <h5 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl w-full text-center tracking-wide px-2 sm:px-4">
                       <TypeAnimation
                         sequence={[image.text, 2000, '']}
                         wrapper="span"
@@ -99,7 +95,7 @@ const CarouselComponent = () => {
                         style={{ display: 'inline-block' }}
                       />
                     </h5>
-                    <h3 className="mt-4 sm:mt-8 text-lg sm:text-2xl lg:text-3xl text-center tracking-wide">
+                    <h3 className="mt-2 sm:mt-4 md:mt-6 lg:mt-8 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-center tracking-wide px-2 sm:px-4">
                       {image.title}
                       <span className="block bg-gradient-to-r from-customGreen to-customWhite bg-clip-text text-transparent">
                         {" "} for Clients
@@ -131,13 +127,13 @@ const CarouselComponent = () => {
         {images.map((_, index) => (
           <button
             key={index}
-            className={`w-3 h-3 rounded-full ${index === currentIndex ? 'bg-gray-800' : 'bg-gray-100'}`}
+            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${index === currentIndex ? 'bg-gray-800' : 'bg-gray-100'}`}
             onClick={() => setCurrentIndex(index)}
           />
         ))}
       </div>
       <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-        <FaArrowDown className="text-white text-3xl animate-bounce" />
+        <FaArrowDown className="text-white text-2xl sm:text-3xl animate-bounce" />
       </div>
     </div>
   );

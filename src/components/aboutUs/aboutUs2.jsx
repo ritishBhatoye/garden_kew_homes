@@ -14,7 +14,7 @@ const ServiceCard = ({ image, icon, title, description }) => {
       initial={{ opacity: 0, y: 50 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.7, ease: "easeOut" }}
-      className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 bg-customWhite"
+      className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 bg-customWhite w-full"
     >
       <img src={image} alt={title} className="w-full h-48 sm:h-56 md:h-64 lg:h-72 object-cover transition-transform duration-300 hover:scale-105"/>
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-customGreen/60 to-customGreen/80"></div>
@@ -27,7 +27,7 @@ const ServiceCard = ({ image, icon, title, description }) => {
         >
           <img src={icon} alt={`${title} Icon`} className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12"/>
         </motion.div>
-        <h4 className="text-lg sm:text-xl md:text-2xl font-semibold text-customWhite mb-2">{title}</h4>
+        <h4 className="text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-customWhite mb-2">{title}</h4>
         <p className="text-customWhite text-xs sm:text-sm md:text-base text-center font-light">{description}</p>
       </div>
     </motion.div>
@@ -41,19 +41,19 @@ const AboutUs2 = () => {
   });
 
   return (
-    <div className="bg-gradient-to-br from-customGreen via-customGreen to-customGreen/90 text-customWhite py-16 px-4 sm:px-6 lg:px-8">
+    <div className="bg-gradient-to-br from-customGreen via-customGreen to-customGreen/90 text-customWhite py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: -50 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: "easeOut" }}
-          className="text-center mb-16"
+          className="text-center mb-8 sm:mb-12 md:mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-customWhite via-customAccent to-customWhite">SERVICES</h2>
-          <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl mt-4 text-customWhite font-light">WHAT WE DO FOR YOU</h3>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-customWhite via-customAccent to-customWhite">SERVICES</h2>
+          <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl mt-2 sm:mt-4 text-customWhite font-light">WHAT WE DO FOR YOU</h3>
         </motion.div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
           <ServiceCard
             image="https://i.imgur.com/ZsmQpwJ.jpeg"
             icon="/path/to/icon1.png"

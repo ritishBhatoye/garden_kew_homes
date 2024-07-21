@@ -38,7 +38,7 @@ const Process1 = () => {
       variants={containerVariants}
       className="flex flex-col lg:flex-row bg-customWhite min-h-screen"
     >
-      <div className="w-full lg:w-1/2 relative overflow-hidden">
+      <div className="w-full lg:w-1/2 relative overflow-hidden h-[50vh] lg:h-auto">
         <motion.img
           src="https://i.imgur.com/YN6aSFD.jpeg"
           alt="Living Room"
@@ -53,14 +53,14 @@ const Process1 = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.8 }}
         >
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-thin text-customWhite tracking-wider">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-thin text-customWhite tracking-wider text-center px-4">
             REAL ESTATE
           </h1>
         </motion.div>
       </div>
-      <div className="w-full lg:w-1/2 bg-customGreen p-8 md:p-12 lg:p-16 flex flex-col justify-center">
-        <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl lg:text-5xl font-light mb-8 text-customWhite">SIMPLE STEPS</motion.h2>
-        <motion.p variants={itemVariants} className="text-lg mb-12 text-customWhite font-light leading-relaxed">
+      <div className="w-full lg:w-1/2 bg-customGreen p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 flex flex-col justify-center">
+        <motion.h2 variants={itemVariants} className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light mb-6 sm:mb-8 text-customWhite">SIMPLE STEPS</motion.h2>
+        <motion.p variants={itemVariants} className="text-base sm:text-lg mb-8 sm:mb-12 text-customWhite font-light leading-relaxed">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </motion.p>
         {[
@@ -68,17 +68,17 @@ const Process1 = () => {
           { title: "REQUEST A VISIT", number: "02" },
           { title: "TAKE THE KEYS", number: "03" },
         ].map((step, index) => (
-          <motion.div key={index} variants={itemVariants} className="flex items-start mb-10 last:mb-0 group">
-            <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-customAccent rounded-full transition-all duration-300 group-hover:scale-110">
-              <svg className="w-6 h-6 text-customGreen" fill="currentColor" viewBox="0 0 20 20">
+          <motion.div key={index} variants={itemVariants} className="flex items-start mb-6 sm:mb-8 last:mb-0 group">
+            <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-customAccent rounded-full transition-all duration-300 group-hover:scale-110">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-customGreen" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10 2a8 8 0 100 16 8 8 0 000-16zM7.05 6.05a7.002 7.002 0 011.414 1.414L5.318 10l3.146 3.146A7.002 7.002 0 1110 2a7 7 0 00-2.95.55zM13 8h4v2h-4V8zM7 8v2H3V8h4z"></path>
               </svg>
             </div>
-            <div className="ml-6 flex-grow">
-              <h3 className="text-xl font-semibold text-customWhite mb-2 transition-all duration-300 group-hover:text-customAccent">{step.title}</h3>
-              <p className="text-customWhite font-light leading-relaxed">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+            <div className="ml-4 sm:ml-6 flex-grow">
+              <h3 className="text-lg sm:text-xl font-semibold text-customWhite mb-1 sm:mb-2 transition-all duration-300 group-hover:text-customAccent">{step.title}</h3>
+              <p className="text-sm sm:text-base text-customWhite font-light leading-relaxed">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
             </div>
-            <div className="ml-auto text-customAccent text-4xl font-thin opacity-50 transition-all duration-300 group-hover:opacity-100">{step.number}</div>
+            <div className="ml-auto text-customAccent text-2xl sm:text-3xl md:text-4xl font-thin opacity-50 transition-all duration-300 group-hover:opacity-100">{step.number}</div>
           </motion.div>
         ))}
       </div>

@@ -1,131 +1,98 @@
-import React, { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-// import { Instagram, Facebook, Linkedin, Pinterest, Youtube } from 'lucide-react';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { FaInstagram, FaFacebook, FaLinkedin, FaPinterest, FaYoutube, FaBook } from 'react-icons/fa';
 
 const Footer = () => {
-  const footerRef = useRef(null);
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
 
-  useEffect(() => {
-    gsap.from(footerRef.current, {
-      opacity: 10,
-      y: 20,
-      duration: 1,
-      ease: "power3.out",
-    });
-  }, []);
+  const socialLinks = [
+    { icon: FaInstagram, label: 'Instagram' },
+    { icon: FaFacebook, label: 'Facebook' },
+    { icon: FaLinkedin, label: 'LinkedIn' },
+    { icon: FaPinterest, label: 'Pinterest' },
+    { icon: FaYoutube, label: 'YouTube' },
+    { icon: FaBook, label: 'Little Red Book' },
+  ];
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: 'spring',
+        stiffness: 100,
+      },
+    },
+  };
 
   return (
-    <div ref={footerRef} className="bg-gray-900 text-gray-200 py-8 px-4">
-      <div className="container mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="md:order-2 md:ml-auto md:w-full">
-            <h2 className="text-2xl font-bold mb-4">START THE JOURNEY</h2>
-            <p className="mb-4">Contact us today to discover how we can bring your vision to life, together.</p>
-            <form className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="col-span-2 md:col-span-1">
-                <label htmlFor="firstName" className="block text-sm mb-2">FIRST NAME*</label>
-                <input type="text" id="firstName" className="w-full border-b border-white bg-gray-800 text-white px-2 py-1" />
-              </div>
-              <div className="col-span-2 md:col-span-1">
-                <label htmlFor="lastName" className="block text-sm mb-2">LAST NAME*</label>
-                <input type="text" id="lastName" className="w-full border-b border-white bg-gray-800 text-white px-2 py-1" />
-              </div>
-              <div className="col-span-2 md:col-span-1">
-                <label htmlFor="phone" className="block text-sm mb-2">PHONE*</label>
-                <input type="text" id="phone" className="w-full border-b border-white bg-gray-800 text-white px-2 py-1" />
-              </div>
-              <div className="col-span-2 md:col-span-1">
-                <label htmlFor="email" className="block text-sm mb-2">EMAIL*</label>
-                <input type="email" id="email" className="w-full border-b border-white bg-gray-800 text-white px-2 py-1" />
-              </div>
-              <div className="col-span-2 md:col-span-1">
-                <label htmlFor="buildPostcode" className="block text-sm mb-2">BUILD POSTCODE*</label>
-                <input type="text" id="buildPostcode" className="w-full border-b border-white bg-gray-800 text-white px-2 py-1" />
-              </div>
-              <div className="col-span-2 md:col-span-1">
-                <label htmlFor="enquiry" className="block text-sm mb-2">ENQUIRY</label>
-                <select id="enquiry" className="w-full border-b border-white bg-gray-800 text-white px-2 py-1">
-                  <option value="">Select</option>
-                  {/* Add more options here */}
-                </select>
-              </div>
-              <div className="col-span-2 md:col-span-1">
-                <label htmlFor="budget" className="block text-sm mb-2">BUDGET</label>
-                <select id="budget" className="w-full border-b border-white bg-gray-800 text-white px-2 py-1">
-                  <option value="">Select</option>
-                  {/* Add more options here */}
-                </select>
-              </div>
-              <div className="col-span-2 md:col-span-1">
-                <label htmlFor="buildTime" className="block text-sm mb-2">WHEN WOULD YOU LIKE TO BUILD?*</label>
-                <select id="buildTime" className="w-full border-b border-white bg-gray-800 text-white px-2 py-1">
-                  <option value="">Select</option>
-                  {/* Add more options here */}
-                </select>
-              </div>
-              <div className="col-span-2">
-                <label htmlFor="message" className="block text-sm mb-2">MESSAGE</label>
-                <textarea id="message" className="w-full border-b border-white bg-gray-800 text-white px-2 py-1" rows="2"></textarea>
-              </div>
-              <div className="col-span-2">
-                <button type="submit" className="w-full border border-white bg-gray-800 text-white px-4 py-2">SUBMIT</button>
-              </div>
+    <footer ref={ref} className="bg-gradient-to-b from-dark to-primary text-light py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8">
+      <motion.div
+        className="container mx-auto"
+        variants={containerVariants}
+        initial="hidden"
+        animate={inView ? "visible" : "hidden"}
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
+          <motion.div variants={itemVariants} className="space-y-4 sm:space-y-6">
+            <h2 className="text-2xl sm:text-3xl font-light mb-2 sm:mb-4 text-accent">KEW GARDEN HOMES</h2>
+            <p className="text-xs sm:text-sm font-light">Bringing your vision to life, together.</p>
+            <form className="space-y-3 sm:space-y-4">
+              <input type="email" placeholder="Enter your email" className="w-full bg-transparent border-b border-light/30 py-1 sm:py-2 text-xs sm:text-sm focus:outline-none focus:border-accent transition-colors" />
+              <button type="submit" className="bg-accent text-dark px-4 sm:px-6 py-1 sm:py-2 rounded-full text-xs sm:text-sm hover:bg-opacity-90 transition-colors">Subscribe</button>
             </form>
-          </div>
-          <div className="md:order-1 md:w-full">
-            <div className="mb-8">
-              <h2 className="text-xl font-bold mb-4">Visit our Head Office</h2>
-              <p>25 BURWOOD ROAD, HAWTHORN VIC 3122</p>
-              <a href="https://www.google.com/maps" className="text-blue-500 hover:underline">VIEW ON GOOGLE MAPS</a>
+          </motion.div>
+
+          <motion.div variants={itemVariants} className="space-y-4 sm:space-y-6">
+            <h3 className="text-lg sm:text-xl font-light mb-2 sm:mb-4">Quick Links</h3>
+            <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm font-light">
+              <li><a href="#" className="hover:text-accent transition-colors">Home</a></li>
+              <li><a href="#" className="hover:text-accent transition-colors">About Us</a></li>
+              <li><a href="#" className="hover:text-accent transition-colors">Services</a></li>
+              <li><a href="#" className="hover:text-accent transition-colors">Projects</a></li>
+              <li><a href="#" className="hover:text-accent transition-colors">Contact</a></li>
+            </ul>
+          </motion.div>
+
+          <motion.div variants={itemVariants} className="space-y-4 sm:space-y-6">
+            <h3 className="text-lg sm:text-xl font-light mb-2 sm:mb-4">Contact Us</h3>
+            <p className="text-xs sm:text-sm font-light">25 BURWOOD ROAD,<br />HAWTHORN VIC 3122</p>
+            <p className="text-xs sm:text-sm font-light">(03) 9810 2800</p>
+            <p className="text-xs sm:text-sm font-light">hello@englehart.com.au</p>
+          </motion.div>
+
+          <motion.div variants={itemVariants} className="space-y-4 sm:space-y-6">
+            <h3 className="text-lg sm:text-xl font-light mb-2 sm:mb-4">Follow Us</h3>
+            <div className="flex flex-wrap gap-3 sm:gap-4">
+              {socialLinks.map((link, index) => (
+                <a key={index} href="#" className="text-light hover:text-accent transition-colors">
+                  <link.icon className="text-xl sm:text-2xl" />
+                </a>
+              ))}
             </div>
-            <div className="mb-8">
-              <h2 className="text-xl font-bold mb-4">Enquire</h2>
-              <p>(03) 9810 2800</p>
-              <p>hello@englehart.com.au</p>
-            </div>
-            <div className="mb-8">
-              <h2 className="text-xl font-bold mb-4">Connect</h2>
-              <div className="flex flex-wrap gap-4">
-                <a href="#" className="flex items-center text-gray-200 hover:text-gray-400 transition">
-                  {/* <Instagram className="mr-2" /> */}
-                  Instagram
-                </a>
-                <a href="#" className="flex items-center text-gray-200 hover:text-gray-400 transition">
-                  {/* <Facebook className="mr-2" /> */}
-                  Facebook
-                </a>
-                <a href="#" className="flex items-center text-gray-200 hover:text-gray-400 transition">
-                  {/* <Linkedin className="mr-2" /> */}
-                  LinkedIn
-                </a>
-                <a href="#" className="flex items-center text-gray-200 hover:text-gray-400 transition">
-                  {/* <Pinterest className="mr-2" /> */}
-                  Pinterest
-                </a>
-                <a href="#" className="flex items-center text-gray-200 hover:text-gray-400 transition">
-                  {/* <Youtube className="mr-2" /> */}
-                  YouTube
-                </a>
-                <a href="#" className="flex items-center text-gray-200 hover:text-gray-400 transition">
-                  {/* <Book className="mr-2" /> */}
-                  Little Red Book
-                </a>
-              </div>
-            </div>
-          </div>
+          </motion.div>
         </div>
-        <div className="mt-8 pt-4 border-t border-gray-600 text-center">
-          <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div className="text-center md:text-left">
-              <p>&copy; Englehart 2024 | Privacy | Disclaimer</p>
-            </div>
-            <div className="text-center md:text-right">
-              <p>Designed by Studio Perspective</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
+        <motion.div variants={itemVariants} className="mt-8 sm:mt-12 pt-4 sm:pt-6 border-t border-light/10 text-center">
+          <p className="text-xs sm:text-sm font-light">&copy; 2024 Englehart. All rights reserved. | <a href="#" className="hover:text-accent transition-colors">Privacy Policy</a> | <a href="#" className="hover:text-accent transition-colors">Terms of Service</a></p>
+        </motion.div>
+      </motion.div>
+    </footer>
   );
 };
 

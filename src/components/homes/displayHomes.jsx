@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import AnimatedBackground from './AnimatedBackground';
 
 const DisplayHomes = () => {
   const [showMore, setShowMore] = useState(false);
@@ -40,15 +39,23 @@ const DisplayHomes = () => {
   const years = [...new Set(projects.map(project => project.year))];
   const bedroomCounts = [...new Set(projects.map(project => project.bedrooms))];
 
-  const filteredProjects = projects.filter(project => 
-    project.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
-    (location === '' || project.location.toLowerCase() === location.toLowerCase()) &&
-    (design === '' || project.category.toLowerCase() === design.toLowerCase()) &&
-    (year === '' || project.year.toString() === year) &&
-    (bedrooms === '' || project.bedrooms.toString() === bedrooms)
+  // Memoize the filtered projects to avoid unnecessary recalculations
+  const filteredProjects = useMemo(() => 
+    projects.filter(project => 
+      project.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      (location === '' || project.location.toLowerCase() === location.toLowerCase()) &&
+      (design === '' || project.category.toLowerCase() === design.toLowerCase()) &&
+      (year === '' || project.year.toString() === year) &&
+      (bedrooms === '' || project.bedrooms.toString() === bedrooms)
+    ),
+    [searchQuery, location, design, year, bedrooms]
   );
 
-  const visibleProjects = showMore ? filteredProjects : filteredProjects.slice(0, 9);
+  // Memoize the visible projects
+  const visibleProjects = useMemo(() => 
+    showMore ? filteredProjects : filteredProjects.slice(0, 9),
+    [showMore, filteredProjects]
+  );
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -75,10 +82,9 @@ const DisplayHomes = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      <AnimatedBackground />
       <div className="relative z-10 mx-auto px-24 py-16">
         <motion.h1
-          className="text-5xl font-bold mb-12 text-center text-white"
+          className="text-5xl font-bold mb-12 text-center text-customGreen"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, type: 'spring' }}
@@ -108,58 +114,21 @@ const DisplayHomes = () => {
         </motion.div>
 
         {showFilters && (
-          <motion.div
-            className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className="bg-white p-8 rounded-3xl w-96 shadow-2xl"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-            >
-              <h2 className="text-3xl font-bold mb-6 text-customGreen">Filters</h2>
-              <div className="space-y-4">
-                {[
-                  { label: "Location", value: location, setter: setLocation, options: locations },
-                  { label: "Design", value: design, setter: setDesign, options: designs },
-                  { label: "Year", value: year, setter: setYear, options: years.sort((a, b) => b - a) },
-                  { label: "Bedrooms", value: bedrooms, setter: setBedrooms, options: bedroomCounts.sort((a, b) => a - b) },
-                ].map((filter, index) => (
-                  <div key={index} className="relative">
-                    <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600">
-                      {filter.label}
-                    </label>
-                    <select
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 appearance-none bg-white"
-                      value={filter.value}
-                      onChange={(e) => filter.setter(e.target.value)}
-                    >
-                      <option value="">All {filter.label}s</option>
-                      {filter.options.map((option, optionIndex) => (
-                        <option key={optionIndex} value={option}>
-                          {filter.label === "Bedrooms" ? `${option} Bedrooms` : option}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                      </svg>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <button
-                onClick={() => setShowFilters(false)}
-                className="w-full px-4 py-3 bg-gradient-to-r from-customGreen to-green-700 text-white rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 mt-8"
-              >
-                Apply Filters
-              </button>
-            </motion.div>
-          </motion.div>
+          <FilterModal
+            locations={locations}
+            designs={designs}
+            years={years}
+            bedroomCounts={bedroomCounts}
+            location={location}
+            setLocation={setLocation}
+            design={design}
+            setDesign={setDesign}
+            year={year}
+            setYear={setYear}
+            bedrooms={bedrooms}
+            setBedrooms={setBedrooms}
+            setShowFilters={setShowFilters}
+          />
         )}
 
         <motion.div
@@ -227,6 +196,68 @@ const DisplayHomes = () => {
         )}
       </div>
     </div>
+  );
+};
+
+// Create a separate component for the filter modal
+const FilterModal = ({ 
+  locations, designs, years, bedroomCounts, 
+  location, setLocation, design, setDesign, 
+  year, setYear, bedrooms, setBedrooms, setShowFilters 
+}) => {
+  return (
+    <motion.div
+      className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.div
+        className="bg-white p-8 rounded-3xl w-96 shadow-2xl"
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+      >
+        <h2 className="text-3xl font-bold mb-6 text-customGreen">Filters</h2>
+        <div className="space-y-4">
+          {[
+            { label: "Location", value: location, setter: setLocation, options: locations },
+            { label: "Design", value: design, setter: setDesign, options: designs },
+            { label: "Year", value: year, setter: setYear, options: years.sort((a, b) => b - a) },
+            { label: "Bedrooms", value: bedrooms, setter: setBedrooms, options: bedroomCounts.sort((a, b) => a - b) },
+          ].map((filter, index) => (
+            <div key={index} className="relative">
+              <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600">
+                {filter.label}
+              </label>
+              <select
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 appearance-none bg-white"
+                value={filter.value}
+                onChange={(e) => filter.setter(e.target.value)}
+              >
+                <option value="">All {filter.label}s</option>
+                {filter.options.map((option, optionIndex) => (
+                  <option key={optionIndex} value={option}>
+                    {filter.label === "Bedrooms" ? `${option} Bedrooms` : option}
+                  </option>
+                ))}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
+              </div>
+            </div>
+          ))}
+        </div>
+        <button
+          onClick={() => setShowFilters(false)}
+          className="w-full px-4 py-3 bg-gradient-to-r from-customGreen to-green-700 text-white rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 mt-8"
+        >
+          Apply Filters
+        </button>
+      </motion.div>
+    </motion.div>
   );
 };
 

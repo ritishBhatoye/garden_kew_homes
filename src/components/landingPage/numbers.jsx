@@ -18,8 +18,8 @@ const Card = ({ icon, title, subtitle, number, delay }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay }}
-      whileHover={{ scale: 1.1 }}
-      style={{ height: '350px', width: '250px' }}
+      whileHover={{ scale: 1.05 }}
+      style={{ height: '300px', width: '220px' }}
     >
       <div className="relative z-10 flex flex-col justify-between h-full">
         <div>
@@ -57,7 +57,7 @@ const Numbers = () => {
       const updateCount = () => {
         const target = +counter.getAttribute('data-target');
         const count = +counter.innerText.replace(/[^0-9]/g, '');
-        const speed = 2000; // Change the speed here
+        const speed = 100; // Decreased speed for faster counting
 
         const increment = target / speed;
 
@@ -85,10 +85,10 @@ const Numbers = () => {
   }, []);
 
   return (
-    <div>
-      <div className="relative min-h-96 bg-cover bg-center" style={{ backgroundImage: `url(${home1})` }}>
+    <div className="w-full">
+      <div className="relative min-h-[50vh] sm:min-h-[60vh] md:min-h-[70vh] lg:min-h-96 bg-cover bg-center" style={{ backgroundImage: `url(${home1})` }}>
         <div className="relative z-10 flex flex-col items-center justify-center h-full space-y-8 px-4 bg-black bg-opacity-50">
-          <div className="flex space-x-4 overflow-x-auto p-8 w-full no-scrollbar" style={{ maxWidth: '1000px' }}>
+          <div className="flex space-x-4 overflow-x-auto p-4 sm:p-6 md:p-8 w-full no-scrollbar" style={{ maxWidth: '100%' }}>
             {[
               { icon: <FaPaintBrush />, title: 'INTERIOR DESIGN', subtitle: 'Our inspired solutions have helped shape modern acoustic design', number: '/ 5' },
               { icon: <FaBuilding />, title: 'BUSINESS DESIGN', subtitle: 'Our inspired solutions have helped shape modern acoustic design', number: '/ 6' },
@@ -114,25 +114,20 @@ const Numbers = () => {
           </div>
         </div>
       </div>
-      <div ref={statsRef} className="w-4/5 mx-auto flex justify-center space-x-44 mt-4 mb-12 text-black text-center text-6xl">
-        <div className="flex flex-col items-center hover:text-customGreen transition duration-500">
-          <span className="counter" data-target="21000">21K</span>
-          <p className="text-base">Completed Projects</p>
-        </div>
-        <div className="flex flex-col items-center hover:text-customGreen  transition duration-500">
-          <span className="counter" data-target="31">31+</span>
-          <p className="text-base">Awards Winner</p>
-        </div>
-        <div className="flex flex-col items-center hover:text-customGreen  transition duration-500">
-          <span className="counter" data-target="1000">1K</span>
-          <p className="text-base">Team Members</p>
-        </div>
-        
-        <div className="flex flex-col items-center hover:text-customGreentransition duration-500">
-          <span className="counter" data-target="16">16</span>
-          <p className="text-base">Years of Experience</p>
-        
-        </div>
+      <div ref={statsRef} className="w-full px-8 sm:w-11/12 md:w-4/5 mx-auto flex flex-wrap justify-center gap-12 sm:gap-16 md:gap-20 lg:gap-24 my-16 text-black text-center">
+        {[
+          { target: 21000, label: "Completed Projects" },
+          { target: 31, label: "Awards Winner" },
+          { target: 1000, label: "Team Members" },
+          { target: 16, label: "Years of Experience" }
+        ].map((item, index) => (
+          <div key={index} className="flex flex-col items-center hover:text-customGreen transition duration-500 p-4">
+            <span className="counter text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-2" data-target={item.target}>
+              {item.target >= 1000 ? `${(item.target / 1000).toFixed(1).replace('.0', '')}K` : item.target}
+            </span>
+            <p className="text-base sm:text-lg md:text-xl">{item.label}</p>
+          </div>
+        ))}
       </div>
     </div>
   );

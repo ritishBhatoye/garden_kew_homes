@@ -9,7 +9,10 @@ import Process from './pages/Process';
 import Stories from './pages/Stories';
 import Contact from './pages/Contact';
 import LandingPage from './pages/LandingPage';
+import Booking from './pages/Booking';
+
 import LoadingAnimation from './components/common/Loading';
+import NDIS from './pages/NDIS';
 
 const App = () => {
   return (
@@ -24,8 +27,11 @@ const App = () => {
         <Route path="/process" element={<Process />} />
         <Route path="/stories" element={<Stories/>} />
         <Route path="/contact" element={<Contact/>} />
+        <Route path="/ndis" element={<NDIS/>} />
+        <Route path="/booking" element={<Booking/>} />
+
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </Router>
   );
 };

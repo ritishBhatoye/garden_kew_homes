@@ -288,9 +288,11 @@ export const navItems = [
   { label: "About Us", href: "/about-us" },
   { label: "Homes", href: "/homes" },
   { label: "Process", href: "/process" },
-  {label:  "Stories",href:"/stories"},
-  { label: "Display Homes", href: "/display_homes" },
+  // {label:  "Stories",href:"/stories"},
+  // { label: "Display Homes", href: "/display_homes" },
   { label: "Contact", href: "/contact" },
+  { label: "NDIS", href: "/ndis" },
+
 ];
 
 // index.jsx

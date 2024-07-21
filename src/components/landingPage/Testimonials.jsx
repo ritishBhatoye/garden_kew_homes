@@ -30,44 +30,50 @@ const Testimonials = () => {
   };
 
   return (
-    <div className='mt-20 tracking-wide'>
-      <h2 className='text-3xl sm:text-5xl lg:text-6xl text-center my-10 lg:my-20 font-serif'>
+    <div className='mt-10 sm:mt-16 md:mt-20 tracking-wide px-4 sm:px-6 lg:px-8'>
+      <h2 className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-center my-6 sm:my-8 md:my-10 lg:my-16 xl:my-20 font-serif'>
         Trusted by Thousands of Our Happy Customers
       </h2>
       <div className='flex flex-col items-center'>
         {testimonials.slice(0, visibleCount).map((testimonial, index) => (
           <motion.div
             key={index}
-            className={`testimonial-card w-full sm:w-3/4 lg:w-1/2 px-4 py-2 flex items-center mb-8 ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}
+            className={`testimonial-card w-full sm:w-11/12 md:w-5/6 lg:w-3/4 xl:w-1/2 px-3 sm:px-4 py-2 flex flex-col sm:flex-row items-center mb-6 sm:mb-8 ${
+              index % 2 === 0 ? 'sm:flex-row' : 'sm:flex-row-reverse'
+            }`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
           >
             <img
-              className='w-16 h-16 mr-12 sm:mr-16 lg:mr-20 rounded-full border border-neutral-300'
+              className='w-20 h-20 sm:w-16 sm:h-16 mb-4 sm:mb-0 sm:mr-6 md:mr-8 lg:mr-12 xl:mr-16 rounded-full border border-neutral-300'
               src={testimonial.image}
               alt={testimonial.user}
             />
-            <div className='relative bg-white rounded-lg p-6 text-md shadow-lg border border-neutral-300 flex-1'>
+            <div className='relative bg-white rounded-lg p-4 sm:p-6 text-sm sm:text-md shadow-lg border border-neutral-300 flex-1'>
               <p className='italic'>"Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."</p>
-              <div className='mt-4'>
+              <div className='mt-3 sm:mt-4'>
                 <h6 className='font-bold text-yellow-600'>{testimonial.user}</h6>
-                <span className='text-sm font-normal text-neutral-600'>{testimonial.location}</span>
+                <span className='text-xs sm:text-sm font-normal text-neutral-600'>{testimonial.location}</span>
               </div>
               <div
-                className={`absolute top-1/2 transform -translate-y-1/2 ${index % 2 === 0 ? 'left-[-10px]' : 'right-[-10px]'} border-t-8 border-t-transparent ${index % 2 === 0 ? 'border-r-8 border-r-white' : 'border-l-8 border-l-white'}`}
+                className={`hidden sm:block absolute top-1/2 transform -translate-y-1/2 ${
+                  index % 2 === 0 ? 'left-[-10px]' : 'right-[-10px]'
+                } border-t-8 border-t-transparent ${
+                  index % 2 === 0 ? 'border-r-8 border-r-white' : 'border-l-8 border-l-white'
+                }`}
               ></div>
             </div>
           </motion.div>
         ))}
       </div>
       {visibleCount < testimonials.length && (
-        <div className='text-center mt-10'>
+        <div className='text-center mt-8 sm:mt-10'>
           <motion.button
             onClick={showMoreTestimonials}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className='px-4 py-2 bg-costumGreen text-white rounded'
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className='px-4 py-2 bg-costumGreen text-white rounded text-sm sm:text-base'
           >
             More
           </motion.button>

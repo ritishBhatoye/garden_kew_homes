@@ -21,19 +21,7 @@ const NdisCard = ({ icon, title, description, color }) => {
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
       const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-      
-      // Make the 3D card responsive
-      const updateSize = () => {
-        const width = sceneRef.current.clientWidth;
-        const height = sceneRef.current.clientHeight;
-        renderer.setSize(width, height);
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-      };
-
-      updateSize();
-      window.addEventListener('resize', updateSize);
-
+      renderer.setSize(280, 400);
       sceneRef.current.appendChild(renderer.domElement);
 
       const geometry = new THREE.BoxGeometry(2.8, 4, 0.1);
@@ -75,8 +63,14 @@ const NdisCard = ({ icon, title, description, color }) => {
       });
 
       return () => {
-        sceneRef.current.removeChild(renderer.domElement);
-        window.removeEventListener('resize', updateSize);
+        // Safe cleanup
+        if (sceneRef.current && sceneRef.current.contains(renderer.domElement)) {
+          sceneRef.current.removeChild(renderer.domElement);
+        }
+        // Dispose of Three.js objects
+        geometry.dispose();
+        material.dispose();
+        renderer.dispose();
       };
     }
   }, [inView, color]);
@@ -101,19 +95,19 @@ const NdisCard = ({ icon, title, description, color }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={controls}
       transition={{ duration: 0.5 }}
-      className={`relative bg-white rounded-2xl p-4 sm:p-6 w-full h-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden`}
+      className={`relative bg-white rounded-2xl p-6 w-full md:w-64 lg:w-72 xl:w-80 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden`}
     >
-      <div ref={sceneRef} className="absolute inset-0 z-0" style={{ height: '200px' }} />
-      <div ref={cardRef} className="relative z-10 mt-[200px]">
+      <div ref={sceneRef} className="absolute inset-0 z-0" />
+      <div ref={cardRef} className="relative z-10">
         <motion.div
-          className={`text-4xl sm:text-5xl mb-2 sm:mb-4 ${color.replace('border', 'text')}`}
+          className={`text-5xl mb-4 ${color.replace('border', 'text')}`}
           animate={{ y: [0, -10, 0] }}
           transition={{ repeat: Infinity, duration: 2 }}
         >
           {icon}
         </motion.div>
-        <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2 text-gray-800">{title}</h3>
-        <p className="text-gray-600 text-xs sm:text-sm font-light">{description}</p>
+        <h3 className="text-xl font-semibold mb-2 text-gray-800">{title}</h3>
+        <p className="text-gray-600 text-sm font-light">{description}</p>
       </div>
     </motion.div>
   );
@@ -151,13 +145,13 @@ const NdisCardsSection = () => {
   };
 
   return (
-    <div className="py-8 sm:py-12 md:py-16 px-4 md:px-8 bg-gradient-to-br from-customWhite to-gray-100">
+    <div className="py-16 px-4 md:px-8 bg-gradient-to-br from-customWhite to-gray-100">
       <div className="max-w-7xl mx-auto">
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4 text-center text-customGreen"
+          className="text-3xl md:text-4xl font-bold mb-4 text-center text-customGreen"
         >
           Specialist Disability Accommodation Design Categories
         </motion.h2>
@@ -165,7 +159,7 @@ const NdisCardsSection = () => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-base sm:text-lg mb-6 sm:mb-8 md:mb-12 text-center text-gray-700 max-w-3xl mx-auto font-light"
+          className="text-lg mb-12 text-center text-gray-700 max-w-3xl mx-auto font-light"
         >
           Discover the four SDA design categories that VB Homes can deliver, each tailored to empower your independence and meet specific needs.
         </motion.p>
@@ -174,7 +168,7 @@ const NdisCardsSection = () => {
           variants={containerVariants}
           initial="hidden"
           animate={controls}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 justify-items-center"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center"
         >
           <motion.div variants={itemVariants}>
             <NdisCard

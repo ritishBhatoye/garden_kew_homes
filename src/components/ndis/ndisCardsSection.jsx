@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import anime from 'animejs';
 import gsap from 'gsap';
+import { TextureLoader } from 'three';
 
 const NdisCard = ({ icon, title, description, color }) => {
   const [ref, inView] = useInView({
@@ -21,19 +22,32 @@ const NdisCard = ({ icon, title, description, color }) => {
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
       const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-      renderer.setSize(280, 400);
+      renderer.setSize(80, 120);
       sceneRef.current.appendChild(renderer.domElement);
 
-      const geometry = new THREE.BoxGeometry(2.8, 4, 0.1);
-      const material = new THREE.MeshPhongMaterial({
-        color: color.replace('border-', '0x'),
+      // Create a canvas to render the emoji
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 256;
+      const ctx = canvas.getContext('2d');
+      ctx.font = '200px Arial';
+      ctx.fillStyle = color.replace('border-', '#');
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(icon, 128, 128);
+
+      // Create a texture from the canvas
+      const texture = new THREE.CanvasTexture(canvas);
+
+      // Create a plane geometry instead of a box
+      const geometry = new THREE.PlaneGeometry(2, 2);
+      const material = new THREE.MeshBasicMaterial({
+        map: texture,
         transparent: true,
-        opacity: 0.7,
-        specular: 0x050505,
-        shininess: 100,
+        opacity: 0.9,
       });
-      const cube = new THREE.Mesh(geometry, material);
-      scene.add(cube);
+      const plane = new THREE.Mesh(geometry, material);
+      scene.add(plane);
 
       const light = new THREE.PointLight(0xffffff, 1, 100);
       light.position.set(0, 0, 10);
@@ -55,7 +69,7 @@ const NdisCard = ({ icon, title, description, color }) => {
 
       animate();
 
-      gsap.to(cube.rotation, {
+      gsap.to(plane.rotation, {
         y: Math.PI * 2,
         duration: 5,
         repeat: -1,
@@ -71,9 +85,10 @@ const NdisCard = ({ icon, title, description, color }) => {
         geometry.dispose();
         material.dispose();
         renderer.dispose();
+        texture.dispose();
       };
     }
-  }, [inView, color]);
+  }, [inView, color, icon]);
 
   useEffect(() => {
     if (inView) {

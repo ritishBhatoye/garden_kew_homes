@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
 import { FaInstagram, FaFacebook, FaLinkedin, FaPinterest, FaYoutube, FaBook } from 'react-icons/fa';
 
 const Footer = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -61,11 +68,12 @@ const Footer = () => {
           <motion.div variants={itemVariants} className="space-y-4 sm:space-y-6">
             <h3 className="text-lg sm:text-xl font-light mb-2 sm:mb-4">Quick Links</h3>
             <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm font-light">
-              <li><a href="#" className="hover:text-accent transition-colors">Home</a></li>
-              <li><a href="#" className="hover:text-accent transition-colors">About Us</a></li>
-              <li><a href="#" className="hover:text-accent transition-colors">Services</a></li>
-              <li><a href="#" className="hover:text-accent transition-colors">Projects</a></li>
-              <li><a href="#" className="hover:text-accent transition-colors">Contact</a></li>
+              <li><Link to="/about-us" className="hover:text-accent transition-colors">About Us</Link></li>
+              <li><Link to="/homes" className="hover:text-accent transition-colors">Homes</Link></li>
+              <li><Link to="/process" className="hover:text-accent transition-colors">Process</Link></li>
+              <li><Link to="/contact" className="hover:text-accent transition-colors">Contact</Link></li>
+              <li><Link to="/ndis" className="hover:text-accent transition-colors">NDIS</Link></li>
+            
             </ul>
           </motion.div>
 
@@ -73,7 +81,7 @@ const Footer = () => {
             <h3 className="text-lg sm:text-xl font-light mb-2 sm:mb-4">Contact Us</h3>
             <p className="text-xs sm:text-sm font-light">25 BURWOOD ROAD,<br />HAWTHORN VIC 3122</p>
             <p className="text-xs sm:text-sm font-light">(03) 9810 2800</p>
-            <p className="text-xs sm:text-sm font-light">hello@englehart.com.au</p>
+            <p className="text-xs sm:text-sm font-light">hello@Kew Garden Homes.com.au</p>
           </motion.div>
 
           <motion.div variants={itemVariants} className="space-y-4 sm:space-y-6">
@@ -89,7 +97,7 @@ const Footer = () => {
         </div>
 
         <motion.div variants={itemVariants} className="mt-8 sm:mt-12 pt-4 sm:pt-6 border-t border-light/10 text-center">
-          <p className="text-xs sm:text-sm font-light">&copy; 2024 Englehart. All rights reserved. | <a href="#" className="hover:text-accent transition-colors">Privacy Policy</a> | <a href="#" className="hover:text-accent transition-colors">Terms of Service</a></p>
+          <p className="text-xs sm:text-sm font-light">&copy; 2024 Kew Garden Homes. All rights reserved. | <a href="#" className="hover:text-accent transition-colors">Privacy Policy</a> | <a href="#" className="hover:text-accent transition-colors">Terms of Service</a></p>
         </motion.div>
       </motion.div>
     </footer>

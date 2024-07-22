@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { navItems } from "../../constants";
@@ -10,30 +10,45 @@ const FadeVariants = {
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isSticky, setIsSticky] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsSticky(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const isActive = (href) => location.pathname === href;
 
   return (
-    <>
-      <div className="absolute top-2 md:top-4 left-1/2 transform -translate-x-1/2 z-50 text-center w-full px-20 md:px-24">
-        <Link to='/' className="text-xl sm:text-2xl md:text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-green-500 via-green-6000 to-green-800 truncate" style={{ fontFamily: 'Poppins, sans-serif' }}>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isSticky ? 'bg-white shadow-md' : ''}`}>
+      <div className={`relative ${isSticky ? 'py-2' : 'py-4'} px-4 flex justify-between items-center`}>
+        <Link to='/' className={`text-xl sm:text-2xl md:text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-green-500 via-green-600 to-green-800 truncate ${isSticky ? 'text-lg sm:text-xl md:text-2xl' : ''}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
           KEW GARDEN HOMES
         </Link>
-      </div>
 
-      <Link
-        className="absolute top-2 left-2 md:top-4 md:left-4 z-50 bg-customGreen text-customWhite hover:text-transparent duration-75 hover:text-white p-1 md:p-2 text-sm md:text-base"
-        to='/booking'
-      >
-        BOOK
-      </Link>
-      <button
-        className="absolute top-2 right-2 md:top-4 md:right-4 z-50 bg-customGreen text-customWhite hover:text-transparent duration-75 hover:text-white p-1 md:p-2 text-sm md:text-base"
-        onClick={() => setMenuOpen(!menuOpen)}
-      >
-        {menuOpen ? 'CLOSE' : 'MENU'}
-      </button>
+        <div className="flex items-center">
+          <Link
+            className={`mr-2 bg-customGreen text-customWhite hover:text-white p-1 md:p-2 text-sm md:text-base ${isSticky ? 'text-xs md:text-sm' : ''}`}
+            to='/booking'
+          >
+            BOOK
+          </Link>
+          <button
+            className={`bg-customGreen text-customWhite hover:text-white p-1 md:p-2 text-sm md:text-base ${isSticky ? 'text-xs md:text-sm' : ''}`}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? 'CLOSE' : 'MENU'}
+          </button>
+        </div>
+      </div>
 
       <AnimatePresence>
         {menuOpen && (
@@ -45,7 +60,7 @@ const Navbar = () => {
             transition={{ duration: 0.25 }}
           >
             <button
-              className="absolute top-2 right-2 md:top-4 md:right-4 bg-customGreen p-1 md:p-2 text-sm md:text-base"
+              className="absolute top-2 right-2 md:top-4 md:right-4 bg-customGreen p-1 text-gray-100 md:p-2 text-sm md:text-base"
               onClick={() => setMenuOpen(false)}
             >
               CLOSE
@@ -90,7 +105,7 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </header>
   );
 };
 

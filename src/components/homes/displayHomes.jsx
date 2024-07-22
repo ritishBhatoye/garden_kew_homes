@@ -1,13 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useNavigate } from 'react-router-dom';
 
 const DisplayHomes = () => {
   const [showMore, setShowMore] = useState(false);
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   // State for search and filters
   const [searchQuery, setSearchQuery] = useState('');
@@ -18,20 +16,22 @@ const DisplayHomes = () => {
   const [bedrooms, setBedrooms] = useState('');
 
   const projects = [
-    { title: 'CENTURY CIRCUIT', category: 'Mockup', location: 'Eveleigh', image: 'https://i.imgur.com/HDcYWVv.jpeg', bedrooms: 3, year: 2022 },
-    { title: 'ROB VILLA', category: 'Clean Architecture', location: 'Kensington', image: 'https://i.imgur.com/P7yuTRX.jpeg', bedrooms: 4, year: 2023 },
-    { title: 'ORIN ARCHITÉCTURE', category: 'Food', location: 'Campsie', image: 'https://i.imgur.com/R0rwU3P.jpeg', bedrooms: 2, year: 2021 },
+    { id: 1, title: 'CENTURY CIRCUIT', category: 'Mockup', location: 'Eveleigh', image: 'https://i.imgur.com/HDcYWVv.jpeg', bedrooms: 3, year: 2022 },
+    { id: 2, title: 'ROB VILLA', category: 'Clean Architecture', location: 'Kensington', image: 'https://i.imgur.com/P7yuTRX.jpeg', bedrooms: 4, year: 2023 },
+    { id: 3, title: 'ORIN ARCHITÉCTURE', category: 'Food', location: 'Campsie', image: 'https://i.imgur.com/R0rwU3P.jpeg', bedrooms: 2, year: 2021 },
     // Add 9 more dummy projects here
-    { title: 'GREEN OASIS', category: 'Eco-friendly', location: 'Surry Hills', image: 'https://i.imgur.com/example1.jpeg', bedrooms: 3, year: 2022 },
-    { title: 'URBAN RETREAT', category: 'Modern', location: 'Newtown', image: 'https://i.imgur.com/example2.jpeg', bedrooms: 2, year: 2023 },
-    { title: 'HARBOUR VIEW', category: 'Luxury', location: 'Darling Point', image: 'https://i.imgur.com/example3.jpeg', bedrooms: 4, year: 2021 },
-    { title: 'PARKSIDE LIVING', category: 'Family', location: 'Centennial Park', image: 'https://i.imgur.com/example4.jpeg', bedrooms: 5, year: 2022 },
-    { title: 'SKYLINE LOFT', category: 'Modern', location: 'Pyrmont', image: 'https://i.imgur.com/example5.jpeg', bedrooms: 2, year: 2023 },
-    { title: 'BEACHFRONT BLISS', category: 'Coastal', location: 'Bondi', image: 'https://i.imgur.com/example6.jpeg', bedrooms: 3, year: 2021 },
-    { title: 'HERITAGE CHARM', category: 'Historic', location: 'Paddington', image: 'https://i.imgur.com/example7.jpeg', bedrooms: 4, year: 2022 },
-    { title: 'RIVERSIDE SERENITY', category: 'Waterfront', location: 'Parramatta', image: 'https://i.imgur.com/example8.jpeg', bedrooms: 3, year: 2023 },
-    { title: 'GARDEN SANCTUARY', category: 'Eco-friendly', location: 'Lane Cove', image: 'https://i.imgur.com/example9.jpeg', bedrooms: 3, year: 2021 },
+    { id: 4, title: 'GREEN OASIS', category: 'Eco-friendly', location: 'Surry Hills', image: 'https://i.imgur.com/example1.jpeg', bedrooms: 3, year: 2022 },
+    { id: 5, title: 'URBAN RETREAT', category: 'Modern', location: 'Newtown', image: 'https://i.imgur.com/example2.jpeg', bedrooms: 2, year: 2023 },
+    { id: 6, title: 'HARBOUR VIEW', category: 'Luxury', location: 'Darling Point', image: 'https://i.imgur.com/example3.jpeg', bedrooms: 4, year: 2021 },
+    { id: 7, title: 'PARKSIDE LIVING', category: 'Family', location: 'Centennial Park', image: 'https://i.imgur.com/example4.jpeg', bedrooms: 5, year: 2022 },
+    { id: 8, title: 'SKYLINE LOFT', category: 'Modern', location: 'Pyrmont', image: 'https://i.imgur.com/example5.jpeg', bedrooms: 2, year: 2023 },
+    { id: 9, title: 'BEACHFRONT BLISS', category: 'Coastal', location: 'Bondi', image: 'https://i.imgur.com/example6.jpeg', bedrooms: 3, year: 2021 },
+    { id: 10, title: 'HERITAGE CHARM', category: 'Historic', location: 'Paddington', image: 'https://i.imgur.com/example7.jpeg', bedrooms: 4, year: 2022 },
+    { id: 11, title: 'RIVERSIDE SERENITY', category: 'Waterfront', location: 'Parramatta', image: 'https://i.imgur.com/example8.jpeg', bedrooms: 3, year: 2023 },
+    { id: 12, title: 'GARDEN SANCTUARY', category: 'Eco-friendly', location: 'Lane Cove', image: 'https://i.imgur.com/example9.jpeg', bedrooms: 3, year: 2021 },
   ];
+
+  const navigate = useNavigate();
 
   // Extract unique values for each filter
   const locations = [...new Set(projects.map(project => project.location))];
@@ -40,8 +40,8 @@ const DisplayHomes = () => {
   const bedroomCounts = [...new Set(projects.map(project => project.bedrooms))];
 
   // Memoize the filtered projects to avoid unnecessary recalculations
-  const filteredProjects = useMemo(() => 
-    projects.filter(project => 
+  const filteredProjects = useMemo(() =>
+    projects.filter(project =>
       project.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
       (location === '' || project.location.toLowerCase() === location.toLowerCase()) &&
       (design === '' || project.category.toLowerCase() === design.toLowerCase()) &&
@@ -52,7 +52,7 @@ const DisplayHomes = () => {
   );
 
   // Memoize the visible projects
-  const visibleProjects = useMemo(() => 
+  const visibleProjects = useMemo(() =>
     showMore ? filteredProjects : filteredProjects.slice(0, 9),
     [showMore, filteredProjects]
   );
@@ -61,27 +61,20 @@ const DisplayHomes = () => {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
+      transition: { staggerChildren: 0.1 },
     },
   };
 
   const projectVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: 'spring',
-        damping: 12,
-        stiffness: 100,
-      },
+      opacity: 1, y: 0,
+      transition: { type: 'spring', damping: 12, stiffness: 100 },
     },
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden mt-10">
       <div className="relative z-10 mx-auto px-24 py-16">
         <motion.h1
           className="text-5xl font-bold mb-12 text-center text-customGreen"
@@ -132,133 +125,120 @@ const DisplayHomes = () => {
         )}
 
         <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12"
           ref={ref}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
           variants={containerVariants}
           initial="hidden"
-          animate={inView ? "visible" : "hidden"}
+          animate={inView ? 'visible' : 'hidden'}
         >
           <AnimatePresence>
-            {visibleProjects.map((project, index) => (
+            {visibleProjects.map(project => (
               <motion.div
-                key={index}
-                className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
+                key={project.id}
+                className="bg-white rounded-lg shadow-lg p-6 hover:shadow-2xl transition-shadow duration-300 cursor-pointer"
+                onClick={() => navigate(`/house/${project.id}`)}
                 variants={projectVariants}
-                whileHover={{ scale: 1.05, rotateY: 5 }}
-                whileTap={{ scale: 0.95 }}
               >
-                <motion.img
+                <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-64 object-cover"
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.3 }}
+                  className="w-full h-56 object-cover rounded-md mb-4"
                 />
-                <div className="p-6">
-                  <h2 className="text-2xl font-bold mb-2 text-customGreen">{project.title}</h2>
-                  <div className="w-16 h-1 bg-gradient-to-r from-customGreen to-green-700 mb-4"></div>
-                  <div className="flex flex-wrap justify-between text-sm text-gray-600 mb-2">
-                    <span className="bg-customWhite px-4 py-2 rounded-full mb-2 font-semibold">{project.category}</span>
-                    <span className="flex items-center mb-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-customGreen" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 111-6 0 3 3 0 016 0z" />
-                      </svg>
-                      {project.location}
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-sm text-gray-600 font-semibold">
-                    <span>{project.bedrooms} Bedrooms</span>
-                    <span>Built {project.year}</span>
-                  </div>
-                </div>
+                <h2 className="text-xl font-semibold mb-2">{project.title}</h2>
+                <p className="text-gray-600">{project.category}</p>
+                <p className="text-gray-600">{project.location}</p>
+                <p className="text-gray-600">{project.year} - {project.bedrooms} Bedrooms</p>
               </motion.div>
             ))}
           </AnimatePresence>
         </motion.div>
 
-        {!showMore && filteredProjects.length > 9 && (
-          <motion.div
-            className="text-center mt-16"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
+        <div className="text-center mt-8">
+          {filteredProjects.length > 9 && (
             <motion.button
-              onClick={() => setShowMore(true)}
-              className="px-10 py-4 bg-gradient-to-r from-customGreen to-green-700 text-white rounded-full text-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              className="bg-customGreen text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+              onClick={() => setShowMore(!showMore)}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
             >
-              Show More Homes
+              {showMore ? 'Show Less' : 'Show More'}
             </motion.button>
-          </motion.div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
-// Create a separate component for the filter modal
-const FilterModal = ({ 
-  locations, designs, years, bedroomCounts, 
-  location, setLocation, design, setDesign, 
-  year, setYear, bedrooms, setBedrooms, setShowFilters 
-}) => {
-  return (
-    <motion.div
-      className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-    >
-      <motion.div
-        className="bg-white p-8 rounded-3xl w-96 shadow-2xl"
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-      >
-        <h2 className="text-3xl font-bold mb-6 text-customGreen">Filters</h2>
-        <div className="space-y-4">
-          {[
-            { label: "Location", value: location, setter: setLocation, options: locations },
-            { label: "Design", value: design, setter: setDesign, options: designs },
-            { label: "Year", value: year, setter: setYear, options: years.sort((a, b) => b - a) },
-            { label: "Bedrooms", value: bedrooms, setter: setBedrooms, options: bedroomCounts.sort((a, b) => a - b) },
-          ].map((filter, index) => (
-            <div key={index} className="relative">
-              <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600">
-                {filter.label}
-              </label>
-              <select
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 appearance-none bg-white"
-                value={filter.value}
-                onChange={(e) => filter.setter(e.target.value)}
-              >
-                <option value="">All {filter.label}s</option>
-                {filter.options.map((option, optionIndex) => (
-                  <option key={optionIndex} value={option}>
-                    {filter.label === "Bedrooms" ? `${option} Bedrooms` : option}
-                  </option>
-                ))}
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-              </div>
-            </div>
-          ))}
-        </div>
-        <button
-          onClick={() => setShowFilters(false)}
-          className="w-full px-4 py-3 bg-gradient-to-r from-customGreen to-green-700 text-white rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 mt-8"
+const FilterModal = ({
+  locations, designs, years, bedroomCounts,
+  location, setLocation, design, setDesign,
+  year, setYear, bedrooms, setBedrooms, setShowFilters
+}) => (
+  <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+    <div className="bg-white rounded-lg p-6 w-1/3">
+      <h2 className="text-2xl font-semibold mb-4">Filters</h2>
+      <div className="mb-4">
+        <label className="block text-gray-700">Location</label>
+        <select
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg"
         >
-          Apply Filters
+          <option value="">All</option>
+          {locations.map(loc => <option key={loc} value={loc}>{loc}</option>)}
+        </select>
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700">Design</label>
+        <select
+          value={design}
+          onChange={(e) => setDesign(e.target.value)}
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+        >
+          <option value="">All</option>
+          {designs.map(des => <option key={des} value={des}>{des}</option>)}
+        </select>
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700">Year</label>
+        <select
+          value={year}
+          onChange={(e) => setYear(e.target.value)}
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+        >
+          <option value="">All</option>
+          {years.map(yr => <option key={yr} value={yr}>{yr}</option>)}
+        </select>
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700">Bedrooms</label>
+        <select
+          value={bedrooms}
+          onChange={(e) => setBedrooms(e.target.value)}
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+        >
+          <option value="">All</option>
+          {bedroomCounts.map(bed => <option key={bed} value={bed}>{bed}</option>)}
+        </select>
+      </div>
+      <div className="flex justify-end">
+        <button
+          className="bg-gray-500 text-white px-4 py-2 rounded-lg mr-2"
+          onClick={() => setShowFilters(false)}
+        >
+          Cancel
         </button>
-      </motion.div>
-    </motion.div>
-  );
-};
+        <button
+          className="bg-customGreen text-white px-4 py-2 rounded-lg"
+          onClick={() => setShowFilters(false)}
+        >
+          Apply
+        </button>
+      </div>
+    </div>
+  </div>
+);
 
 export default DisplayHomes;

@@ -120,9 +120,9 @@ const BookingForm = () => {
           <h1 className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl mt-4 text-center tracking-wide'>
             <TypeAnimation
               sequence={[
-                "Building dreams, one event at a time with Deep Catering & Events",
+                "Building dreams, one home at a time with Kew Garden Homes",
                 2000,
-                "Crafting unforgettable experiences for every occasion",
+                "Crafting exceptional living spaces for every family",
               ]}
               wrapper="span"
               speed={50}

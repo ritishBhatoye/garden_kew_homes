@@ -10,14 +10,15 @@ import Stories from './pages/Stories';
 import Contact from './pages/Contact';
 import LandingPage from './pages/LandingPage';
 import Booking from './pages/Booking';
-
 import LoadingAnimation from './components/common/Loading';
 import NDIS from './pages/NDIS';
+import HouseDetail from './components/homes/houseDetailScreen';
+import ScrollToTop from './components/common/ScrollToTop';
 
 const App = () => {
   return (
     <Router>
-
+      <ScrollToTop />
       <Navbar />
       {/* <LoadingAnimation /> */}
       <Routes>   
@@ -28,6 +29,8 @@ const App = () => {
         <Route path="/stories" element={<Stories/>} />
         <Route path="/contact" element={<Contact/>} />
         <Route path="/ndis" element={<NDIS/>} />
+        {/* <Route index element={<DisplayHomes />} /> */}
+          <Route path="house/:id" element={<HouseDetail />} />
         <Route path="/booking" element={<Booking/>} />
 
       </Routes>

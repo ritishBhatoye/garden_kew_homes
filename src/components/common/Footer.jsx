@@ -48,8 +48,8 @@ const Footer = () => {
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
-          <motion.div variants={itemVariants} className="space-y-4 sm:space-y-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 text-center sm:text-left">
+          <motion.div variants={itemVariants} className="space-y-4 sm:space-y-6 mx-auto sm:mx-0 max-w-xs sm:max-w-none">
             <h2 className="text-2xl sm:text-3xl font-light mb-2 sm:mb-4 text-accent">KEW GARDEN HOMES</h2>
             <p className="text-xs sm:text-sm font-light">Bringing your vision to life, together.</p>
             <form className="space-y-3 sm:space-y-4">
@@ -78,7 +78,7 @@ const Footer = () => {
 
           <motion.div variants={itemVariants} className="space-y-4 sm:space-y-6">
             <h3 className="text-lg sm:text-xl font-light mb-2 sm:mb-4">Follow Us</h3>
-            <div className="flex flex-wrap gap-3 sm:gap-4">
+            <div className="flex flex-wrap gap-3 sm:gap-4 justify-center sm:justify-start">
               {socialLinks.map((link, index) => (
                 <a key={index} href="#" className="text-light hover:text-accent transition-colors">
                   <link.icon className="text-xl sm:text-2xl" />

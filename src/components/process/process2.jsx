@@ -27,8 +27,8 @@ const Process2 = () => {
       gsap.to('.process-title', {
         y: 0,
         opacity: 1,
-        duration: 1,
-        ease: 'power3.out',
+        duration: 0.5, // Reduced from 1
+        ease: 'power2.out', // Changed from power3.out for faster animation
         scrollTrigger: {
           trigger: '.process-title',
           start: 'top 80%',
@@ -37,17 +37,18 @@ const Process2 = () => {
 
       anime({
         targets: '.step-item',
-        translateY: [50, 0],
+        translateY: [30, 0], // Reduced from [50, 0]
         opacity: [0, 1],
-        delay: anime.stagger(150),
+        delay: anime.stagger(50), // Reduced from 150
+        duration: 400, // Added duration for faster animation
         easing: 'easeOutQuad',
       });
 
       gsap.to('.image-container', {
         scale: 1,
         opacity: 1,
-        duration: 1,
-        ease: 'power3.out',
+        duration: 0.5, // Reduced from 1
+        ease: 'power2.out', // Changed from power3.out
         scrollTrigger: {
           trigger: '.image-container',
           start: 'top 80%',
@@ -61,19 +62,19 @@ const Process2 = () => {
     visible: { 
       opacity: 1, 
       transition: { 
-        duration: 0.8, 
+        duration: 0.5, // Reduced from 0.8
         ease: "easeOut",
-        staggerChildren: 0.3
+        staggerChildren: 0.1 // Reduced from 0.3
       } 
     },
   };
 
   const itemVariants = {
-    hidden: { y: 30, opacity: 0 },
+    hidden: { y: 20, opacity: 0 }, // Reduced y from 30
     visible: { 
       y: 0, 
       opacity: 1,
-      transition: { duration: 0.6, ease: "easeOut" }
+      transition: { duration: 0.4, ease: "easeOut" } // Reduced from 0.6
     },
   };
 

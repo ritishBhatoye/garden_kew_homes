@@ -30,7 +30,7 @@ const Navbar = () => {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isSticky ? 'bg-white shadow-md' : ''}`}>
       <div className={`relative ${isSticky ? 'py-2' : 'py-4'} px-4 flex justify-between items-center`}>
-        <Link to='/' className={`text-xl sm:text-2xl md:text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-green-500 via-green-600 to-green-800 truncate ${isSticky ? 'text-lg sm:text-xl md:text-2xl' : ''}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
+        <Link to='/' className={`text-xl sm:text-2xl md:text-3xl font-bold text-green-800 truncate ${isSticky ? 'text-lg sm:text-xl md:text-2xl' : ''}`} style={{ fontFamily: 'Poppins, sans-serif', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)' }}>
           KEW GARDEN HOMES
         </Link>
 
@@ -66,6 +66,38 @@ const Navbar = () => {
               CLOSE
             </button>
             <nav className="flex flex-col items-center space-y-4 sm:space-y-6 md:space-y-8 lg:space-y-10">
+              <motion.div 
+                whileHover={{ scale: 1.1, transition: { duration: 0.25 } }}
+                whileTap={{ scale: 0.95 }}
+                variants={FadeVariants}
+                initial="hide"
+                animate="fade"
+                transition={{ delay: 0 }}
+              >
+                <Link
+                  to="/"
+                  className={`relative text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl py-1 px-2 sm:px-3 md:px-4 lg:px-5 transition-all text-customWhite duration-400 ${
+                    isActive('/') ? 'text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-green-800' : 'hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r from-green-500 to-green-800 text-customWhite'
+                  }`}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Home
+                  {isActive('/') && (
+                    <motion.span
+                      layoutId="underline"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-500 to-green-800"
+                      initial={{ width: 0 }}
+                      animate={{ width: '100%' }}
+                      transition={{ duration: 0.25 }}
+                    ></motion.span>
+                  )}
+                  {!isActive('/') && (
+                    <span 
+                      className="absolute bottom-0 left-0 right-0 h-0.5 transition-width duration-500 w-0 group-hover:w-full bg-gradient-to-r from-green-500 to-green-800"
+                    ></span>
+                  )}
+                </Link>
+              </motion.div>
               {navItems.map((item, index) => (
                 <motion.div 
                   key={index}
@@ -74,7 +106,7 @@ const Navbar = () => {
                   variants={FadeVariants}
                   initial="hide"
                   animate="fade"
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ delay: (index + 1) * 0.1 }}
                 >
                   <Link
                     to={item.href}

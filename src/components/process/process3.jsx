@@ -67,23 +67,23 @@ const ProcessItem = ({ process, index }) => {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 30 }} // Reduced y from 50
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay: index * 0.2 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }} // Reduced duration from 0.8 and delay multiplier from 0.2
       className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center mb-12 sm:mb-16 md:mb-20 lg:mb-24 last:mb-0`}
     >
       <motion.img
         src={process.image}
         alt={process.title}
         className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 rounded-lg shadow-custom mb-6 sm:mb-8 lg:mb-0"
-        whileHover={{ scale: 1.05 }}
-        transition={{ duration: 0.3 }}
+        whileHover={{ scale: 1.03 }} // Reduced scale from 1.05
+        transition={{ duration: 0.2 }} // Reduced from 0.3
       />
       <div className={`w-full sm:w-3/4 md:w-2/3 lg:w-1/2 ${isEven ? 'lg:ml-12' : 'lg:mr-12'}`}>
         <motion.div
-          initial={{ opacity: 0, x: isEven ? -50 : 50 }}
+          initial={{ opacity: 0, x: isEven ? -30 : 30 }} // Reduced x from -50/50
           animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.8, delay: index * 0.3 }}
+          transition={{ duration: 0.5, delay: index * 0.15 }} // Reduced duration from 0.8 and delay multiplier from 0.3
           className="flex items-center mb-3 sm:mb-4"
         >
           <span className="text-4xl sm:text-5xl md:text-6xl font-thin text-customAccent mr-3 sm:mr-4">{process.number}</span>
@@ -92,7 +92,7 @@ const ProcessItem = ({ process, index }) => {
         <motion.p
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: index * 0.4 }}
+          transition={{ duration: 0.5, delay: index * 0.2 }} // Reduced duration from 0.8 and delay multiplier from 0.4
           className="text-base sm:text-lg text-customGreenDark font-light leading-relaxed"
         >
           {process.description}

@@ -1,224 +1,269 @@
-import React, { useState, Suspense } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import emailjs from 'emailjs-com';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
+import { TypeAnimation } from 'react-type-animation';
 
 const OwnerDetails = () => {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-customGreen to-customWhite py-8 px-4 sm:py-12 sm:px-6 lg:px-8 font-light">
-      <div className="max-w-7xl mx-auto">
-        <Header />
-        <div className="mt-8 sm:mt-12 grid gap-8 md:grid-cols-2">
-          <ContactInfo />
-          <ContactForm />
-        </div>
-        <Map />
-      </div>
-      <AnimatedBackground />
-    </div>
-  );
-};
+  const form = useRef();
+  const controls = useAnimation();
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-const Header = () => (
-  <motion.div
-    initial={{ opacity: 0, y: -50 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8 }}
-    className="text-center px-4 sm:px-6 lg:px-8"
-  >
-    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extralight text-customGreen mb-4 tracking-wider">
-      LET'S START A <span className="text-customAccent">NEW PROJECT</span>
-    </h1>
-    <p className="text-lg sm:text-xl text-customGreen max-w-2xl mx-auto font-light">
-      Begin your journey, request more information, or plan a visit today!
-    </p>
-  </motion.div>
-);
+  useEffect(() => {
+    controls.start({
+      height: '50vh',
+      transition: { duration: 1 },
+    });
+  }, [controls]);
 
-const ContactInfo = () => (
-  <motion.div
-    className="bg-customWhite bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-lg shadow-xl p-6 sm:p-8"
-    initial={{ opacity: 0, x: -100 }}
-    animate={{ opacity: 1, x: 0 }}
-    transition={{ duration: 0.8 }}
-  >
-    <h2 className="text-2xl sm:text-3xl font-light mb-6 text-customGreen">Contact Information</h2>
-    <div className="space-y-4">
-      <ContactItem icon="email" text="Info@gmail.com" />
-      <ContactItem icon="phone" text="(+678) 234 43333 56" />
-      <ContactItem icon="location" text="Unit 6C Boundary Industrial Estate, Millfield Road, Bolton, BL2 60Y" />
-    </div>
-  </motion.div>
-);
+  const formFields = [
+    { label: 'Full Name', type: 'text', name: 'customer-name' },
+    { label: 'Email Address', type: 'email', name: 'customer-email' },
+    { label: 'Phone Number', type: 'tel', name: 'phone-number' },
+    { label: 'Message', type: 'textarea', name: 'message' },
+  ];
 
-const ContactItem = ({ icon, text }) => (
-  <div className="flex items-center text-customGreen">
-    <svg className="w-5 h-5 sm:w-6 sm:h-6 mr-3 text-customAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      {icon === 'email' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />}
-      {icon === 'phone' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />}
-      {icon === 'location' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />}
-    </svg>
-    <span className="text-base sm:text-lg">{text}</span>
-  </div>
-);
-
-const ContactForm = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [errors, setErrors] = useState({});
-  const [submitStatus, setSubmitStatus] = useState('');
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: '' });
-  };
-
-  const handleSubmit = (e) => {
+  const sendEmail = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      // Replace with your actual EmailJS service, template, and user IDs
-      emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', formData, 'YOUR_USER_ID')
-        .then(() => {
-          setSubmitStatus('Message sent successfully! We will contact you soon.');
-          setFormData({ name: '', email: '', message: '' });
-        }, () => {
-          setSubmitStatus('Failed to send message. Please try again.');
-        });
+
+    const formData = new FormData(form.current);
+
+    const data = {
+      from_name: formData.get('customer-name'),
+      from_email: formData.get('customer-email'),
+      phone_number: formData.get('phone-number'),
+      message: formData.get('message'),
+    };
+
+    try {
+      await emailjs.send(
+        'service_npavkes',
+        'template_wliif7j',
+        data,
+        'ANlmnkhJtKMonPp4V'
+      );
+
+      setIsSubmitted(true);
+
+      // Construct WhatsApp message
+      const whatsappMessage = `
+        New Contact Request:
+        Name: ${data.from_name}
+        Email: ${data.from_email}
+        Phone: ${data.phone_number}
+        Message: ${data.message}
+      `.trim();
+
+      const whatsappNumber = '7087963595';
+      const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+        whatsappMessage
+      )}`;
+
+      window.open(whatsappURL, '_blank');
+    } catch (error) {
+      console.error(error);
+      alert('Failed to send the message. Please try again.');
     }
   };
 
-  const validateForm = () => {
-    let tempErrors = {};
-    if (!formData.name) tempErrors.name = 'Name is required';
-    if (!formData.email) tempErrors.email = 'Email is required';
-    if (!formData.message) tempErrors.message = 'Message is required';
-    setErrors(tempErrors);
-    return Object.keys(tempErrors).length === 0;
-  };
+  const SuccessPopup = () => (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
+    >
+      <div className="bg-green-100 p-8 rounded-lg shadow-lg text-center">
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+          className="text-6xl mb-4"
+        >
+          🎉
+        </motion.div>
+        <h2 className="text-2xl font-bold text-green-800 mb-4">
+          Message Sent!
+        </h2>
+        <p className="text-green-700 mb-6">
+          We'll get back to you as soon as possible.
+        </p>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="bg-yellow-400 text-green-800 px-4 py-2 rounded-md hover:bg-yellow-500 transition duration-300"
+          onClick={() => setIsSubmitted(false)}
+        >
+          Close
+        </motion.button>
+      </div>
+    </motion.div>
+  );
 
   return (
     <motion.div
-      className="bg-customWhite bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-lg shadow-xl p-6 sm:p-8"
-      initial={{ opacity: 0, x: 100 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.8 }}
+      className="mx-auto w-full text-gray-800 bg-green-50 min-h-screen"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1.5 }}
     >
-      <h2 className="text-2xl sm:text-3xl font-light mb-6 text-customGreen">Send Us a Message</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <InputField
-          name="name"
-          placeholder="Your Name"
-          value={formData.name}
-          onChange={handleChange}
-          error={errors.name}
-        />
-        <InputField
-          name="email"
-          type="email"
-          placeholder="Your Email"
-          value={formData.email}
-          onChange={handleChange}
-          error={errors.email}
-        />
-        <InputField
-          name="message"
-          placeholder="Your Message"
-          value={formData.message}
-          onChange={handleChange}
-          error={errors.message}
-          textarea
-        />
-        <button
-          type="submit"
-          className="w-full bg-customGreen text-customWhite py-2 sm:py-3 px-4 rounded-md hover:bg-opacity-90 transition duration-300 ease-in-out transform hover:scale-105 text-sm sm:text-base"
+      <motion.div
+        className="relative p-4 sm:p-6 text-white w-full bg-gradient-to-r from-green-600 to-green-800"
+        initial={{ height: '100vh' }}
+        animate={controls}
+      >
+        <div className="relative p-4 sm:p-6 text-center h-full flex flex-col justify-center">
+          <motion.h2
+            className="text-xl sm:text-2xl mb-2 font-montserrat font-thin"
+            initial={{ y: -50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            KEW GARDEN HOMES
+          </motion.h2>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl mt-4 text-center tracking-wide">
+            <TypeAnimation
+              sequence={[
+                'Get in Touch with Kew Garden Homes',
+                2000,
+                'We\'re Here to Answer Your Questions',
+              ]}
+              wrapper="span"
+              speed={50}
+              className="mt-4 font-montserrat text-yellow-400 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]"
+              repeat={Infinity}
+            />
+          </h1>
+        </div>
+      </motion.div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 sm:p-8 md:p-10 lg:p-12 mt-8 sm:mt-12 bg-white rounded-lg shadow-lg mx-4 sm:mx-8 md:mx-16 lg:mx-32">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
         >
-          Send Message
-        </button>
-      </form>
-      {submitStatus && (
-        <p className={`mt-4 text-center ${submitStatus.includes('success') ? 'text-green-600' : 'text-red-600'}`}>
-          {submitStatus}
-        </p>
-      )}
+          <h2 className="text-2xl font-semibold mb-6 text-green-800">Contact Information</h2>
+          <div className="space-y-4">
+            <ContactItem icon="email" text="info@kewgardenhomes.com.au" />
+            <ContactItem icon="phone" text="(03) 9261 8600" />
+            <ContactItem icon="location" text="22-24 Gellibrand Street, Kew VIC 3101, Australia" />
+          </div>
+        </motion.div>
+
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="space-y-6 sm:space-y-8"
+        >
+          {formFields.map((field, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="w-full"
+            >
+              <label
+                htmlFor={field.name}
+                className="block text-sm sm:text-md font-medium text-gray-700 mb-2"
+              >
+                {field.label}
+              </label>
+              {field.type === 'textarea' ? (
+                <textarea
+                  name={field.name}
+                  id={field.name}
+                  rows="4"
+                  className="mt-1 block w-full bg-green-50 border-b border-green-300 text-gray-700 focus:border-yellow-400 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 rounded-md shadow-sm transition duration-300 ease-in-out"
+                  required
+                ></textarea>
+              ) : (
+                <input
+                  type={field.type}
+                  name={field.name}
+                  id={field.name}
+                  className="mt-1 block w-full bg-green-50 border-b border-green-300 text-gray-700 focus:border-yellow-400 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 rounded-md shadow-sm transition duration-300 ease-in-out"
+                  required
+                />
+              )}
+            </motion.div>
+          ))}
+
+          <div className="flex justify-center mt-8">
+            <motion.button
+              type="submit"
+              className="inline-flex font-montserrat items-center px-6 py-3 border border-transparent text-md font-medium rounded-md text-green-800 bg-yellow-400 shadow-md hover:bg-yellow-500 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 focus:shadow-lg"
+              whileHover={{
+                scale: 1.05,
+                boxShadow: '0 0 15px rgba(255, 215, 0, 0.5)',
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Send Message
+            </motion.button>
+          </div>
+        </form>
+      </div>
+
+      <Map />
+
+      <AnimatePresence>{isSubmitted && <SuccessPopup />}</AnimatePresence>
     </motion.div>
   );
 };
 
-const InputField = ({ name, type = 'text', placeholder, value, onChange, error, textarea = false }) => (
-  <div>
-    {textarea ? (
-      <textarea
-        name={name}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        className={`w-full p-2 sm:p-3 border rounded-md bg-customWhite bg-opacity-50 text-sm sm:text-base ${error ? 'border-red-500' : 'border-customGreen border-opacity-50'}`}
-        rows="3"
-      />
-    ) : (
-      <input
-        type={type}
-        name={name}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        className={`w-full p-2 sm:p-3 border rounded-md bg-customWhite bg-opacity-50 text-sm sm:text-base ${error ? 'border-red-500' : 'border-customGreen border-opacity-50'}`}
-      />
-    )}
-    {error && <p className="mt-1 text-red-500 text-xs sm:text-sm">{error}</p>}
+const ContactItem = ({ icon, text }) => (
+  <div className="flex items-center text-gray-700">
+    <span className="w-6 h-6 mr-3 text-yellow-500">
+      {icon === 'email' && <EmailIcon />}
+      {icon === 'phone' && <PhoneIcon />}
+      {icon === 'location' && <LocationIcon />}
+    </span>
+    <span>{text}</span>
   </div>
 );
 
-const Map = () => {
-  const position = [53.5744, -2.4282]; // Coordinates for Bolton, UK
+const EmailIcon = () => (
+  <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24">
+    <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+  </svg>
+);
 
+const PhoneIcon = () => (
+  <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24">
+    <path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+  </svg>
+);
+
+const LocationIcon = () => (
+  <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24">
+    <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+    <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+  </svg>
+);
+
+const Map = () => {
   return (
     <motion.div
-      className="mt-8 sm:mt-12"
+      className="mt-12"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
     >
-      <h2 className="text-2xl sm:text-3xl font-light mb-4 sm:mb-6 text-customGreen text-center">Our Location</h2>
-      <div className="h-64 sm:h-80 md:h-96 rounded-lg overflow-hidden shadow-xl">
-        <MapContainer center={position} zoom={13} style={{ height: '100%', width: '100%' }}>
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          />
-          <Marker position={position}>
-            <Popup>
-              Unit 6C Boundary Industrial Estate, Millfield Road, Bolton, BL2 60Y
-            </Popup>
-          </Marker>
-        </MapContainer>
+      <h2 className="text-3xl font-semibold mb-6 text-green-800 text-center">Our Location</h2>
+      <div className="h-96 rounded-xl overflow-hidden shadow-2xl">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8385385572983!2d145.03262621531904!3d-37.80979497975255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad646b5d2ba4273%3A0xd6a0ea9e6d8dc2e!2sKEW%20Garden%20Homes!5e0!3m2!1sen!2sus!4v1638146000000!5m2!1sen!2sus"
+          width="100%"
+          height="100%"
+          style={{ border: 0 }}
+          allowFullScreen=""
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        ></iframe>
       </div>
     </motion.div>
   );
 };
-
-const AnimatedBackground = () => (
-  <div className="fixed top-0 left-0 w-full h-full -z-10 opacity-30">
-    <Canvas>
-      <Suspense fallback={null}>
-        <OrbitControls enableZoom={false} />
-        <ambientLight intensity={0.7} />
-        <directionalLight position={[-2, 5, 2]} intensity={0.8} />
-        <Sphere args={[1, 100, 200]} scale={2.5}>
-          <MeshDistortMaterial
-            color="#4DA785" // Lighter green color
-            attach="material"
-            distort={0.3}
-            speed={1.5}
-            transparent
-            opacity={0.7}
-          />
-        </Sphere>
-      </Suspense>
-    </Canvas>
-  </div>
-);
 
 export default OwnerDetails;

@@ -13,19 +13,20 @@ const Process1 = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.3,
+        staggerChildren: 0.1, // Reduced from 0.3
       },
     },
   };
 
   const itemVariants = {
-    hidden: { y: 30, opacity: 0 },
+    hidden: { y: 20, opacity: 0 }, // Reduced y from 30
     visible: {
       y: 0,
       opacity: 1,
       transition: {
         type: 'spring',
-        stiffness: 100,
+        stiffness: 200, // Increased from 100
+        damping: 15, // Added damping for faster settling
       },
     },
   };
@@ -37,6 +38,7 @@ const Process1 = () => {
       animate={inView ? "visible" : "hidden"}
       variants={containerVariants}
       className="flex flex-col lg:flex-row bg-customWhite min-h-screen"
+      transition={{ duration: 0.5 }} // Added transition for faster initial animation
     >
       <div className="w-full lg:w-1/2 relative overflow-hidden h-[50vh] lg:h-auto">
         <motion.img
@@ -45,13 +47,13 @@ const Process1 = () => {
           className="w-full h-full object-cover"
           initial={{ scale: 1.2 }}
           animate={{ scale: 1 }}
-          transition={{ duration: 1.2, ease: 'easeOut' }}
+          transition={{ duration: 0.8, ease: 'easeOut' }} // Reduced from 1.2
         />
         <motion.div
           className="absolute top-0 left-0 h-full w-full flex items-center justify-center bg-black bg-opacity-30"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
+          transition={{ delay: 0.2, duration: 0.5 }} // Reduced delay from 0.5 and duration from 0.8
         >
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-thin text-customWhite tracking-wider text-center px-4">
             REAL ESTATE

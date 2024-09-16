@@ -3,34 +3,39 @@ import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaPaintBrush, FaBuilding, FaTree, FaCity } from 'react-icons/fa';
-
-import home1 from '../../assets/images/home-1.jpg';
-
+import PropTypes from 'prop-types';
 
 gsap.registerPlugin(ScrollTrigger);
-
-const customGreen = '#2B704E';
 
 const Card = ({ icon, title, subtitle, number, delay }) => {
   return (
     <motion.div
-      className="relative p-4 text-white rounded-lg flex-shrink-0 bg-cover bg-center bg-black bg-opacity-50 hover:bg-customGreen transition duration-500"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay }}
-      whileHover={{ scale: 1.05 }}
-      style={{ height: '300px', width: '220px' }}
+      className="relative p-6 text-white rounded-xl bg-black/80 hover:bg-gray-900 transition-all duration-300 shadow-lg h-full min-h-[300px]"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay, duration: 0.5 }}
+      whileHover={{ scale: 1.03, boxShadow: '0 10px 20px rgba(0,0,0,0.2)' }}
+      role="article"
+      aria-labelledby={`title-${number}`}
     >
       <div className="relative z-10 flex flex-col justify-between h-full">
         <div>
-          <div className="flex justify-center mb-4 text-3xl">{icon}</div>
-          <span className="block text-xl">{title}</span>
-          <p className="text-sm">{subtitle}</p>
+          <div className="flex justify-center mb-4 text-4xl text-emerald-400" aria-hidden="true">{icon}</div>
+          <h3 id={`title-${number}`} className="text-xl font-semibold mb-2">{title}</h3>
+          <p className="text-sm text-gray-300">{subtitle}</p>
         </div>
-        <div className="text-right">{number}</div>
+        <div className="text-right text-2xl font-bold text-emerald-400 mt-4" aria-label={`Number ${number}`}>{number}</div>
       </div>
     </motion.div>
   );
+};
+
+Card.propTypes = {
+  icon: PropTypes.element.isRequired,
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string.isRequired,
+  number: PropTypes.string.isRequired,
+  delay: PropTypes.number.isRequired
 };
 
 const Numbers = () => {
@@ -73,61 +78,67 @@ const Numbers = () => {
         }
       };
 
-      gsap.fromTo(counter, { opacity: 0 }, { opacity: 1, scrollTrigger: {
-        trigger: counter,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: true,
-        onEnter: updateCount
-      }});
+      gsap.fromTo(counter, 
+        { opacity: 0 }, 
+        { 
+          opacity: 1, 
+          duration: 1,
+          scrollTrigger: {
+            trigger: counter,
+            start: 'top bottom-=100', // Adjust this to trigger earlier
+            end: 'bottom center',
+            toggleActions: 'play none none reverse',
+            onEnter: updateCount
+          }
+        }
+      );
     });
 
   }, []);
 
   return (
-    <div className="w-full">
-      <div className="relative min-h-[50vh] sm:min-h-[60vh] md:min-h-[70vh] lg:min-h-96 bg-cover bg-center" style={{ backgroundImage: `url(${home1})` }}>
-        <div className="relative z-10 flex flex-col items-center justify-center h-full space-y-8 px-4 bg-black bg-opacity-50">
-          <div className="flex space-x-4 overflow-x-auto p-4 sm:p-6 md:p-8 w-full no-scrollbar" style={{ maxWidth: '100%' }}>
-            {[
-              { icon: <FaPaintBrush />, title: 'INTERIOR DESIGN', subtitle: 'Our inspired solutions have helped shape modern acoustic design', number: '/ 5' },
-              { icon: <FaBuilding />, title: 'BUSINESS DESIGN', subtitle: 'Our inspired solutions have helped shape modern acoustic design', number: '/ 6' },
-              { icon: <FaTree />, title: 'LANDSCAPE DESIGN', subtitle: 'Our inspired solutions have helped shape modern acoustic design', number: '/ 7' },
-              { icon: <FaCity />, title: 'URBAN DESIGN', subtitle: 'Our inspired solutions have helped shape modern acoustic design', number: '/ 8' },
-              { icon: <FaCity />, title: 'URBAN DESIGN', subtitle: 'Our inspired solutions have helped shape modern acoustic design', number: '/ 8' },
-              { icon: <FaCity />, title: 'URBAN DESIGN', subtitle: 'Our inspired solutions have helped shape modern acoustic design', number: '/ 8' },
-              { icon: <FaCity />, title: 'URBAN DESIGN', subtitle: 'Our inspired solutions have helped shape modern acoustic design', number: '/ 8' },
-              { icon: <FaCity />, title: 'URBAN DESIGN', subtitle: 'Our inspired solutions have helped shape modern acoustic design', number: '/ 8' },
-              { icon: <FaCity />, title: 'URBAN DESIGN', subtitle: 'Our inspired solutions have helped shape modern acoustic design', number: '/ 8' },
-              { icon: <FaCity />, title: 'URBAN DESIGN', subtitle: 'Our inspired solutions have helped shape modern acoustic design', number: '/ 8' },
-              { icon: <FaCity />, title: 'URBAN DESIGN', subtitle: 'Our inspired solutions have helped shape modern acoustic design', number: '/ 8' },
-            ].map((item, index) => (
-              <Card
-                key={index}
-                icon={item.icon}
-                title={item.title}
-                subtitle={item.subtitle}
-                number={item.number}
-                delay={0.5 + index * 0.1}
-              />
-            ))}
-          </div>
+    <div className="w-full bg-gray-100">
+      <div className="container mx-auto px-4 py-16">
+        <h2 className="text-4xl font-bold text-gray-800 mb-12 text-center">Our Expertise</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+          {[
+            { icon: <FaPaintBrush />, title: 'Interior Design', subtitle: 'Shaping modern acoustic spaces', number: '01' },
+            { icon: <FaBuilding />, title: 'Business Design', subtitle: 'Optimizing workplace efficiency', number: '02' },
+            { icon: <FaTree />, title: 'Landscape Design', subtitle: 'Creating sustainable outdoor areas', number: '03' },
+            { icon: <FaCity />, title: 'Urban Design', subtitle: 'Reimagining city landscapes', number: '04' },
+            { icon: <FaCity />, title: 'Architectural Design', subtitle: 'Crafting iconic structures', number: '05' },
+          ].map((item, index) => (
+            <Card
+              key={index}
+              icon={item.icon}
+              title={item.title}
+              subtitle={item.subtitle}
+              number={item.number}
+              delay={0.3 + index * 0.1}
+            />
+          ))}
         </div>
       </div>
-      <div ref={statsRef} className="w-full px-8 sm:w-11/12 md:w-4/5 mx-auto flex flex-wrap justify-center gap-12 sm:gap-16 md:gap-20 lg:gap-24 my-16 text-black text-center">
-        {[
-          { target: 21000, label: "Completed Projects" },
-          { target: 31, label: "Awards Winner" },
-          { target: 1000, label: "Team Members" },
-          { target: 16, label: "Years of Experience" }
-        ].map((item, index) => (
-          <div key={index} className="flex flex-col items-center hover:text-customGreen transition duration-500 p-4">
-            <span className="counter text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-2" data-target={item.target}>
-              {item.target >= 1000 ? `${(item.target / 1000).toFixed(1).replace('.0', '')}K` : item.target}
-            </span>
-            <p className="text-base sm:text-lg md:text-xl">{item.label}</p>
-          </div>
-        ))}
+      <div ref={statsRef} className="container mx-auto px-4 py-20" aria-label="Company Statistics">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {[
+            { target: 21000, label: "Completed Projects" },
+            { target: 31, label: "Awards Won" },
+            { target: 1000, label: "Team Members" },
+            { target: 16, label: "Years of Experience" }
+          ].map((item, index) => (
+            <div key={index} className="text-center">
+              <span 
+                className="counter text-5xl font-bold text-emerald-600 mb-2 block" 
+                data-target={item.target}
+                aria-live="polite"
+              >
+                0
+              </span>
+              <p className="text-lg text-gray-600">{item.label}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

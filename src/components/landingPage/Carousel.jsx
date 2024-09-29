@@ -12,7 +12,7 @@
 
                   const imageLinks = {
                     CalukeCI: {
-                      image1: "https://i.imgur.com/HDcYWVv.jpeg",
+                      image1: "https://i.imgur.com/vVUWpzG.png",
                       image2: "https://i.imgur.com/6eOsR13.jpeg",
                       image3: "https://i.imgur.com/s6k6MnG.jpeg",
                       image4: "https://i.imgur.com/s6k6MnG.jpeg",
